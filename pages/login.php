@@ -58,7 +58,8 @@
 			$login = $_POST['login'];
 			$senha = $_POST['senha'];
 			if(\Usuarios::verificarLogin($login,$senha)){
-				\Usuarios::startSession($login);
+				$getId = \Usuarios::getUserId($login);
+				\Usuarios::startSession($login,$getId);
 				echo '<script>alert("Bem vindo!");location.href="'.INCLUDE_PATH.'home";</script>';
 				die();
 			}else{
