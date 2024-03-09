@@ -38,11 +38,13 @@
 		.btn-coord{
 			margin-top: 20px;
 		}
-		.btn-coord a{
+		.btn-coord button{
 			background-color: #e82975;
 			color: white;
 			text-decoration: none;
 			padding: 8px 1%;
+			border: 0;
+			cursor: pointer;
 		}
 		.info-localizacao{
 			margin-top: 20px;
@@ -65,14 +67,17 @@
 			<a href="?sair">fechar</a>
 		</div>
 		<div class="btn-coord">
-			<a href="">Atualizar localização</a>
+			<button onClick="getLocation()">Atualizar localização</button>
 		</div>
-		<div class="info-localizacao">
-			<p>Latitude: 0</p>
-			<p>Longitude: 0</p>
-			<p>Localização: <?php echo $_SESSION['localizacao']; ?></p>
+		<div id="localizacao" class="info-localizacao">
+			<p class="lat-txt">Latitude: 0</p>
+			<p class="lon-txt">Longitude: 0</p>
+			<p class="cidade-txt">Moro em: <?php echo $_SESSION['localizacao']; ?></p>
 		</div>
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="<?php echo INCLUDE_PATH ?>script/script.js"></script>
 	
 </body>
 </html>
