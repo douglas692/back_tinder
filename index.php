@@ -3,6 +3,8 @@
 	session_start();
 
 	define('INCLUDE_PATH','http://localhost/Index/Tinder/');
+	define('ACTION_LIKE', '1');
+	define('ACTION_DISLIKE', '0');
 
 	$autoload = function($class){
 		include($class.'.php');

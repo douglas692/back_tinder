@@ -22,6 +22,7 @@
 			border-right: 1px dotted black;
 			text-align: center;
 			padding: 12px 1%;
+			float: left;
 		}
 		.topo{
 			background-color: rgb(225,225,225);
@@ -51,6 +52,17 @@
 			text-align: left;
 			color: black;
 		}
+		.box-usuario-like{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 400px;
+			height: 400px;
+			background-color: rgb(225,225,225);
+			line-height: 400px;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
@@ -70,9 +82,28 @@
 			<button onClick="getLocation()">Atualizar localização</button>
 		</div>
 		<div id="localizacao" class="info-localizacao">
-			<p class="lat-txt">Latitude: 0</p>
-			<p class="lon-txt">Longitude: 0</p>
+			<p class="lat-txt">Latitude: <?php echo $_SESSION['lat']; ?></p>
+			<p class="lon-txt">Longitude: <?php echo $_SESSION['longi']; ?></p>
 			<p class="cidade-txt">Moro em: <?php echo $_SESSION['localizacao']; ?></p>
+		</div>
+	</div>
+
+	<div class="box-usuario-like">
+		<div class="box-usuario-nome">
+			<?php
+				if(isset($_GET['action'])){
+					$action = $_GET['action'];
+					if($action == ACTION_DISLIKE){
+						\Usuarios::executarAcao(ACTION_DISLIKE, $_GET['id']);
+					}else if($action == ACTION_LIKE){
+						\Usuarios::executarAcao(ACTION_LIKE, $_GET['id']);
+					}
+				} 
+				$usuario = \Usuarios::bdDados();
+			?>
+			<h2><?php echo $usuario['nome']; ?></h2>
+			<p><a href="?action=1&id=<?php echo $usuario['id']; ?>">Gostei</a></p>
+			<p><a href="?action=0&id=<?php echo $usuario['id']; ?>">Pula</a></p>
 		</div>
 	</div>
 
