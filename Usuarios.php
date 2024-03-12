@@ -53,7 +53,11 @@
 
 				return $info;
 			}else{
-				
+				$pegaUsuarioRandom = \MySql::conectar()->prepare("SELECT * FROM `usuarios` WHERE genero != 'feminino' ORDER BY RAND() LIMIT 1");
+				$pegaUsuarioRandom->execute();
+				$info = $pegaUsuarioRandom->fetch();
+
+				return $info;
 			}
 		}
 
@@ -65,6 +69,29 @@
 			}else{
 				$inserirAcao = \MySql::conectar()->prepare("INSERT INTO `likes` VALUES (null,?,?,?)");
 				$inserirAcao->execute(array($_SESSION['id'], $id, $acao));
+			}
+		}
+
+		public static function buscaContatos(){
+			
+			$contatos = [];
+			$gostei = \MySql::conectar()->prepare("SELECT * FROM `likes` WHERE user_from = ? AND acao = 1");
+			$gostei->execute(array($_SESSION['id']));
+			$gostei = $gostei->fetchAll();
+			foreach ($gostei as $key => $value) {
+				/*teste
+				echo $value['user_to'];
+				echo '<br/>';
+				*/
+				$virouContato = \MySql::conectar()->prepare("SELECT * FROM `likes` WHERE user_to = ? AND user_from = ? AND acao = 1");
+				$virouContato->execute(array($_SESSION['id'],$value['user_to']));
+				if($virouContato->rowCount() == 1){
+					$infoContato = \MySql::conectar()->prepare("SELECT * FROM `usuarios` WHERE id = ?");
+					$infoContato->execute([$value['user_to']]);
+					$contatos[] = $infoContato->fetch();
+				}
+
+				return $contatos;
 			}
 		}
 	}

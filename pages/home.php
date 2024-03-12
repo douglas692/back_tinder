@@ -1,3 +1,14 @@
+<?php 
+	
+	if(isset($_GET['action'])){
+			$action = $_GET['action'];
+		if($action == ACTION_DISLIKE){
+			\Usuarios::executarAcao(ACTION_DISLIKE, $_GET['id']);
+		}else if($action == ACTION_LIKE){
+			\Usuarios::executarAcao(ACTION_LIKE, $_GET['id']);
+		}
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,26 +96,30 @@
 			<p class="lat-txt">Latitude: <?php echo $_SESSION['lat']; ?></p>
 			<p class="lon-txt">Longitude: <?php echo $_SESSION['longi']; ?></p>
 			<p class="cidade-txt">Moro em: <?php echo $_SESSION['localizacao']; ?></p>
+			<br />
+			<h3>Contatos:</h3>
+			<ul>
+				<?php 
+					$contatos = \Usuarios::buscaContatos();
+					foreach ($contatos as $key => $value) {
+				?>
+					<li><?php echo $value['nome']; ?></li>
+				<?php } ?>
+			</ul>
 		</div>
 	</div>
 
 	<div class="box-usuario-like">
 		<div class="box-usuario-nome">
-			<?php
-				if(isset($_GET['action'])){
-					$action = $_GET['action'];
-					if($action == ACTION_DISLIKE){
-						\Usuarios::executarAcao(ACTION_DISLIKE, $_GET['id']);
-					}else if($action == ACTION_LIKE){
-						\Usuarios::executarAcao(ACTION_LIKE, $_GET['id']);
-					}
-				} 
+			<?php 
 				$usuario = \Usuarios::bdDados();
 			?>
-			<h2><?php echo $usuario['nome']; ?></h2>
-			<p><a href="?action=1&id=<?php echo $usuario['id']; ?>">Gostei</a></p>
-			<p><a href="?action=0&id=<?php echo $usuario['id']; ?>">Pula</a></p>
-		</div>
+			<h2><?php echo $usuario['nome']; ?>
+				<a href="?action=1&id=<?php echo $usuario['id']; ?>">Gostei</a>
+			<a href="?action=0&id=<?php echo $usuario['id']; ?>">Pula</a>
+			</h2>
+		</div>		
+					
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
