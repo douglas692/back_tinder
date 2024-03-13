@@ -93,8 +93,8 @@
 			<button onClick="getLocation()">Atualizar localização</button>
 		</div>
 		<div id="localizacao" class="info-localizacao">
-			<p class="lat-txt">Latitude: <?php echo $_SESSION['lat']; ?></p>
-			<p class="lon-txt">Longitude: <?php echo $_SESSION['longi']; ?></p>
+			<p style="display:none;" class="lat-txt"><?php echo $_SESSION['lat']; ?></p>
+			<p style="display:none;" class="lon-txt"><?php echo $_SESSION['longi']; ?></p>
 			<p class="cidade-txt">Moro em: <?php echo $_SESSION['localizacao']; ?></p>
 			<br />
 			<h3>Contatos:</h3>
@@ -102,8 +102,10 @@
 				<?php 
 					$contatos = \Usuarios::buscaContatos();
 					foreach ($contatos as $key => $value) {
-				?>
-					<li><?php echo $value['nome']; ?></li>
+				?>	
+					<li><?php echo $value['nome']; ?>| Distância: <span class="user-distancia"></span>
+					<span style="display:none;" class="lat-user"><?php echo $value['lat']; ?></span>
+					<span style="display:none;" class="long-user"><?php echo $value['longi']; ?></span></li>
 				<?php } ?>
 			</ul>
 		</div>
